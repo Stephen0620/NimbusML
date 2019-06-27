@@ -1,51 +1,55 @@
 @if not defined _echo @echo off
-if exist %~dp0build (rmdir /S /Q %~dp0build)
-if exist %~dp0..\..\..\..\dependencies\Python3.6 (
+
+set currentDir=%~dp0
+set WheelFile=nimbusml-1.1.0-cp36-none-win_amd64.whl
+
+if exist %currentDir%build (rmdir /S /Q %currentDir%\0build)
+if exist %currentDir%\..\..\..\..\dependencies\Python3.6 (
 echo "Python3.6 exists"
 ) else (
 echo "Please run build.cmd under NimbusML with Python3.6's configuration first"
 call exit /b
 )
-echo "###Downloading Dependencies######"
-echo "Downloading Dependencies "
-set PY=%~dp0..\..\..\..\dependencies\Python3.6\python.exe
-set PYTHONPATH=%~dp0..\..\..\..\python
-call %PY% -m pip -q install pip==9.0.3
-echo "Installing sphinx-docfx-yaml "
-call %PY% -m pip -q install sphinx-docfx-yaml
-echo "Installing sphinx "
-call %PY% -m pip -q install sphinx==2.1.1
-echo "Installing sphinx_rtd_theme "
-call %PY% -m pip -q install sphinx_rtd_theme
-echo "Installing NimbusML "
-call %PY% -m pip -q install nimbusml
 echo "#################################"
+echo "Downloading Dependencies "
+echo "#################################"
+set PY=%currentDir%..\..\..\..\dependencies\Python3.6\python.exe
+call %PY% -m pip -q install pip==9.0.3
+echo "Installing sphinx-docfx-yaml... "
+call %PY% -m pip -q install sphinx-docfx-yaml
+echo "Installing sphinx... "
+call %PY% -m pip -q install sphinx==2.1.1
+echo "Installing sphinx_rtd_theme... "
+call %PY% -m pip -q install sphinx_rtd_theme
+echo "Installing NimbusML... "
+call %PY% -m pip -q install %currentDir%..\..\..\..\target\%WheelFile%
 echo.
 
 echo.
 echo "#################################"
 echo "Running sphinx-build "
 echo "#################################"
-call %PY% -m sphinx -c %~dp0ci_script %~dp0 %~dp0_build
+call %PY% -m sphinx -c %currentDir%ci_script %currentDir% %currentDir%_build
 
 echo.
 echo "#################################"
 echo "Copying files "
 echo "#################################"
-call mkdir %~dp0_build\ms_doc_ref\
-call xcopy /S /I /Q /Y /F %~dp0_build\docfx_yaml\* %~dp0_build\ms_doc_ref\nimbusml\docs-ref-autogen
+call mkdir %currentDir%_build\ms_doc_ref\
+call xcopy /S /I /Q /Y /F %currentDir%_build\docfx_yaml\* %currentDir%_build\ms_doc_ref\nimbusml\docs-ref-autogen
 
 echo.
 echo "#################################"
 echo "Running make_md.bat"
 echo "Fixing API guide
 echo "#################################"
+call %PY% -m pip -q install sphinx==1.6.2
 call make md
+exit /b
 call %py% %~dp0ci_script\fix_apiguide.py
 
 call copy /Y %~dp0toc.yml %~dp0_build\ms_doc_ref\nimbusml\toc.yml
 call xcopy /Y /S %~dp0_build\md\* %~dp0_build\ms_doc_ref\nimbusml
-:: Append the text in index.md under tutorial.md
 
 echo.
 echo "#################################"

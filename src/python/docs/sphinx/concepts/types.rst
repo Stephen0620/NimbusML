@@ -43,7 +43,7 @@ A VectorDataViewType column contains a vector of values of a homogenous type, an
 
 The following table shows how NimbusML processes a dataset:
 
-.. image:: ../_static/images/table_car.png
+.. image:: ../ci_script/_static/images/table_car.png
 The third column is a VectorDataViewType column named *Features* with 10 ``slots``. A VectorDataViewType column can
 be referenced within a transform (or estimator) by its ``column_name``, such as using *Feature*. But
 the ``slots`` themselves may also have names which are generated dynamically by the transform during

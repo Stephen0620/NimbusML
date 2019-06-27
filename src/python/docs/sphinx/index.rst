@@ -34,14 +34,14 @@ up to **billion** features and **billions** of training examples for select algo
 
 NimbusML can be easily used for the following problems:
 
-.. image:: _static/images/examples1.png
-      :target: tutorials/1-3.md
-.. image:: _static/images/examples2.png
-      :target: tutorials/2-3.md
-.. image:: _static/images/examples3.png
-      :target: tutorials/1-2.md
-.. image:: _static/images/examples4.png
-      :target: tutorials/2-5.md
+.. image:: ci_script/_static/images/examples1.png
+      :target: tutorials/A_B-Regression-with-Synthetic-Data.md
+.. image:: ci_script/_static/images/examples2.png
+      :target: tutorials/B_F-Image-Processing-Clustering.md
+.. image:: ci_script/_static/images/examples3.png
+      :target: tutorials/B_A-Sentiment-Analysis-1-Data-Loading-with-Pandas.md
+.. image:: ci_script/_static/images/examples4.png
+      :target: tutorials/B_E-Learning-to-Rank-with-Microsoft-Bing-Data.md
 For more details, please refer to the [tutorial section](tutorials.md).
 
 Used by 
