@@ -45,45 +45,43 @@ echo "Fixing API guide
 echo "#################################"
 call %PY% -m pip -q install sphinx==1.6.2
 call make md
-exit /b
-call %py% %~dp0ci_script\fix_apiguide.py
+call %py% %currentDir%ci_script\fix_apiguide.py
 
-call copy /Y %~dp0toc.yml %~dp0_build\ms_doc_ref\nimbusml\toc.yml
-call xcopy /Y /S %~dp0_build\md\* %~dp0_build\ms_doc_ref\nimbusml
+call copy /Y %currentDir%toc.yml %currentDir%_build\ms_doc_ref\nimbusml\toc.yml
+call xcopy /Y /S %currentDir%_build\md\* %currentDir%_build\ms_doc_ref\nimbusml
 
 echo.
 echo "#################################"
 echo "updating yml......."
 echo "#################################"
-call %PY% %~dp0ci_script\gen_toc_yml.py -input %~dp0_build\ms_doc_ref\nimbusml\index.md -temp %~dp0_build\ms_doc_ref\nimbusml\toc_ref.yml -output %~dp0_build\ms_doc_ref\nimbusml\toc.yml
+call %PY% %currentDir%ci_script\gen_toc_yml.py -input %currentDir%_build\ms_doc_ref\nimbusml\index.md -temp %currentDir%_build\ms_doc_ref\nimbusml\toc_ref.yml -output %currentDir%_build\ms_doc_ref\nimbusml\toc.yml
 
 echo.
 echo "#################################"
 echo "updating reference links...."
 echo "#################################"
-call %PY% %~dp0ci_script\update_all_toc_yml.py
+call %PY% %currentDir%ci_script\update_all_toc_yml.py
 
 echo.
 echo "#################################"
 echo "updating ms-scikit.md to modules.md"
 echo "#################################"
-call move %~dp0_build\ms_doc_ref\nimbusml\modules.md %~dp0_build\ms_doc_ref\nimbusml\ms-scikit.md
+call move %currentDir%_build\ms_doc_ref\nimbusml\modules.md %currentDir%_build\ms_doc_ref\nimbusml\ms-scikit.md
 
 echo.
 echo "#################################"
 echo "Cleaning files"
 echo "#################################"
-call mkdir %~dp0_build\ms_doc_ref\nimbusml\_images\_static
-call xcopy /S /I /Q /Y /F %~dp0ci_script\_static %~dp0_build\ms_doc_ref\nimbusml\_images\_static
-call mkdir %~dp0build
-call move %~dp0_build\ms_doc_ref %~dp0\build\
-call more +29 %~dp0build\ms_doc_ref\nimbusml\index.md >> %~dp0build\ms_doc_ref\nimbusml\overview.md
-call del /Q %~dp0build\ms_doc_ref\nimbusml\*log
-call del /Q %~dp0build\ms_doc_ref\nimbusml\concepts.md
-call del /Q %~dp0build\ms_doc_ref\nimbusml\index.md
-call del /Q %~dp0build\ms_doc_ref\nimbusml\toc.yml
-call rmdir /Q %~dp0build\ms_doc_ref\nimbusml\_static
-:: call rmdir /S /Q %~dp0_build
+call mkdir %currentDir%_build\ms_doc_ref\nimbusml\_images\_static
+call xcopy /S /I /Q /Y /F %currentDir%ci_script\_static %currentDir%_build\ms_doc_ref\nimbusml\_images\_static
+call mkdir %currentDir%build
+call move %currentDir%_build\ms_doc_ref %currentDir%\build\
+call more +29 %currentDir%build\ms_doc_ref\nimbusml\index.md >> %currentDir%build\ms_doc_ref\nimbusml\overview.md
+call del /Q %currentDir%build\ms_doc_ref\nimbusml\*log
+call del /Q %currentDir%build\ms_doc_ref\nimbusml\concepts.md
+call del /Q %currentDir%build\ms_doc_ref\nimbusml\index.md
+call del /Q %currentDir%build\ms_doc_ref\nimbusml\toc.yml
+call rmdir /Q %currentDir%build\ms_doc_ref\nimbusml\_static
 
 echo.
 echo "#################################"
